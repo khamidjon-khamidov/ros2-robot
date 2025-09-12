@@ -5,7 +5,7 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 import xacro
 
-package_name = "ias0220_<uni_id>"
+package_name = "IAS0220_246075IVSM"
 
 def generate_launch_description():
     package_path = os.path.join(get_package_share_directory(package_name))

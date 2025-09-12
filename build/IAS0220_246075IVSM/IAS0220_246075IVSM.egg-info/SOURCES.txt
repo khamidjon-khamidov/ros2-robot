@@ -9,6 +9,7 @@ build/IAS0220_246075IVSM/IAS0220_246075IVSM.egg-info/entry_points.txt
 build/IAS0220_246075IVSM/IAS0220_246075IVSM.egg-info/requires.txt
 build/IAS0220_246075IVSM/IAS0220_246075IVSM.egg-info/top_level.txt
 build/IAS0220_246075IVSM/IAS0220_246075IVSM.egg-info/zip-safe
+config/task2_config.rviz
 launch/task2.launch.py
 resource/IAS0220_246075IVSM
 test/test_copyright.py
