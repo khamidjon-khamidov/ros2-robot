@@ -5,3 +5,8 @@ source install/setup.bash
 
 ros2 launch IAS0220_246075IVSM task2.launch.py
 
+# Node list
+ros2 node list
+
+# Topic list
+ros2 topic list
