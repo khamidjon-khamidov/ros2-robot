@@ -11,8 +11,7 @@
   <xacro:property name="head_x" value="0.03" />
   <xacro:property name="head_y" value="0.02" />
   <xacro:property name="head_z" value="0.02" />
-  <xacro:property name="front_wheel_r" value="${(wheel_r - base_thickness/2) / 2}" />
-  <xacro:property name="passive_holder_len" value="0.0006" />
+  <xacro:property name="passive_holder_len" value="0.06" />
   <xacro:property name="passive_wheel_r" value="0.02" />
   <xacro:property name="passive_wheel_w" value="0.01" />
 
@@ -39,9 +38,14 @@
         <color rgba="0.8 0.2 0.2 1.0" />
       </material>
     </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${base_radius}" length="${base_thickness}" />
+      </geometry>
+    </collision>
     <inertial>
       <mass value="${mass_base}" />
-      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
     </inertial>
   </link>
 
@@ -54,9 +58,14 @@
         <color rgba="0.15 0.4 0.9 1.0" />
       </material>
     </visual>
+    <collision>
+      <geometry>
+        <box size="${head_x} ${head_y} ${head_z}" />
+      </geometry>
+    </collision>
     <inertial>
       <mass value="${mass_head}" />
-      <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001" />
+      <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0" ixz="0" iyz="0"/>
     </inertial>
   </link>
 
@@ -68,9 +77,14 @@
       </geometry>
       <material name="wheel_black" />
     </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${wheel_r}" length="${wheel_w}" />
+      </geometry>
+    </collision>
     <inertial>
       <mass value="${mass_back_wheel}" />
-      <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001" />
+      <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0" ixz="0" iyz="0"/>
     </inertial>
   </link>
 
@@ -81,9 +95,14 @@
       </geometry>
       <material name="wheel_black" />
     </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${wheel_r}" length="${wheel_w}" />
+      </geometry>
+    </collision>
     <inertial>
       <mass value="${mass_back_wheel}" />
-      <inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00001" iyz="0" izz="0.00001" />
+      <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0" ixz="0" iyz="0"/>
     </inertial>
   </link>
 
@@ -91,12 +110,17 @@
   <link name="left_wheel_marker">
     <visual>
       <geometry>
-        <box size="${wheel_r*0.2} ${wheel_w * 0.1} ${wheel_r*1.2}" />
+        <box size="${wheel_r*0.2} ${wheel_w*0.1} ${wheel_r*1.2}" />
       </geometry>
       <material name="marker_white">
         <color rgba="1 1 1 1" />
       </material>
     </visual>
+    <collision>
+      <geometry>
+        <box size="${wheel_r*0.2} ${wheel_w*0.1} ${wheel_r*1.2}" />
+      </geometry>
+    </collision>
   </link>
 
   <link name="right_wheel_marker">
@@ -108,20 +132,30 @@
         <color rgba="1 1 1 1" />
       </material>
     </visual>
+    <collision>
+      <geometry>
+        <box size="${wheel_r*0.2} ${wheel_w*0.1} ${wheel_r*1.2}" />
+      </geometry>
+    </collision>
   </link>
 
   <link name="passive_wheel_holder">
     <visual>
       <geometry>
-        <cylinder radius="${passive_wheel_r}" length="${passive_holder_len}" />
+        <box size="${passive_holder_len} ${passive_wheel_w} ${passive_wheel_w}" />
       </geometry>
       <material name="white">
         <color rgba="0.95 0.95 0.95 1.0" />
       </material>
     </visual>
+    <collision>
+      <geometry>
+        <box size="${passive_holder_len} ${passive_wheel_w} ${passive_wheel_w}" />
+      </geometry>
+    </collision>
     <inertial>
       <mass value="${mass_passive_holder}" />
-      <inertia ixx="0.000005" ixy="0" ixz="0" iyy="0.000005" iyz="0" izz="0.000005" />
+      <inertia ixx="0.000005" iyy="0.000005" izz="0.000005" ixy="0" ixz="0" iyz="0"/>
     </inertial>
   </link>
 
@@ -130,11 +164,16 @@
       <geometry>
         <sphere radius="${passive_wheel_r}" />
       </geometry>
-      <material name="white" />
+      <material name="wheel_black"/>
     </visual>
+    <collision>
+      <geometry>
+        <sphere radius="${passive_wheel_r}" />
+      </geometry>
+    </collision>
     <inertial>
       <mass value="${mass_passive_wheel}" />
-      <inertia ixx="0.000002" ixy="0" ixz="0" iyy="0.000002" iyz="0" izz="0.000002" />
+      <inertia ixx="0.000002" iyy="0.000002" izz="0.000002" ixy="0" ixz="0" iyz="0"/>
     </inertial>
   </link>
 

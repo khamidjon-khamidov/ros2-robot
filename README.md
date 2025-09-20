@@ -10,3 +10,6 @@ ros2 node list
 
 # Topic list
 ros2 topic list
+
+# Overview of system (source ROS before running)
+rqt_graph
