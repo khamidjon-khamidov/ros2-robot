@@ -24,6 +24,8 @@ setup(
     license="TODO: License declaration",
     tests_require=["pytest"],
     entry_points={
-        "console_scripts": [],
+        "console_scripts": [
+            'test_node= IAS0220_246075IVSM.test_node:main'
+            ],
     },
 )

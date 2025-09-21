@@ -15,6 +15,12 @@ def generate_launch_description():
         "urdf",
         "differential_robot.xacro"
     )
+    
+    test_node = Node(
+        package = 'IAS0220_246075IVSM',
+        executable = 'test_node',
+        name='test_node'
+    )
 
     # robot_state_publisher node with xacro processed at runtime
     robot_state_publisher_node = Node(
@@ -52,5 +58,6 @@ def generate_launch_description():
     return LaunchDescription([
         robot_state_publisher_node,
         joint_state_publisher_gui_node,
-        rviz_node
+        rviz_node,
+        test_node
     ])
