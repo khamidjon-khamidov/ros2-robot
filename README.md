@@ -30,4 +30,6 @@ entry_points={
 ros2 run package_name entry_point_name
 ```
 
-ros2 run IAS0220_246075IVSM test_node
+cd ~/ros2_ws && colcon build && ros2 run IAS0220_246075IVSM walker
+
+cd ~/ros2_ws && colcon build && ros2 run IAS0220_246075IVSM position_calculator
