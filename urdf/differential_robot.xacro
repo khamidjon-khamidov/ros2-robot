@@ -45,7 +45,7 @@
     </collision>
     <inertial>
       <mass value="${mass_base}" />
-      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
     </inertial>
   </link>
 
@@ -65,7 +65,7 @@
     </collision>
     <inertial>
       <mass value="${mass_head}" />
-      <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0" ixz="0" iyz="0"/>
+      <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0" ixz="0" iyz="0" />
     </inertial>
   </link>
 
@@ -84,7 +84,7 @@
     </collision>
     <inertial>
       <mass value="${mass_back_wheel}" />
-      <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0" ixz="0" iyz="0"/>
+      <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0" ixz="0" iyz="0" />
     </inertial>
   </link>
 
@@ -102,7 +102,7 @@
     </collision>
     <inertial>
       <mass value="${mass_back_wheel}" />
-      <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0" ixz="0" iyz="0"/>
+      <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0" ixz="0" iyz="0" />
     </inertial>
   </link>
 
@@ -155,7 +155,7 @@
     </collision>
     <inertial>
       <mass value="${mass_passive_holder}" />
-      <inertia ixx="0.000005" iyy="0.000005" izz="0.000005" ixy="0" ixz="0" iyz="0"/>
+      <inertia ixx="0.000005" iyy="0.000005" izz="0.000005" ixy="0" ixz="0" iyz="0" />
     </inertial>
   </link>
 
@@ -164,7 +164,7 @@
       <geometry>
         <sphere radius="${passive_wheel_r}" />
       </geometry>
-      <material name="wheel_black"/>
+      <material name="wheel_black" />
     </visual>
     <collision>
       <geometry>
@@ -173,7 +173,7 @@
     </collision>
     <inertial>
       <mass value="${mass_passive_wheel}" />
-      <inertia ixx="0.000002" iyy="0.000002" izz="0.000002" ixy="0" ixz="0" iyz="0"/>
+      <inertia ixx="0.000002" iyy="0.000002" izz="0.000002" ixy="0" ixz="0" iyz="0" />
     </inertial>
   </link>
 
@@ -190,24 +190,24 @@
     <origin xyz="${base_radius - 0.02} 0 ${base_thickness/2.0 + head_z/2.0}" rpy="0 0 0" />
   </joint>
 
-  <joint name="base_to_left_wheel" type="continuous">
-    <parent link="base_link" />
-    <child link="left_wheel" />
-    <origin xyz="${-wheel_w/2} ${base_radius + 0.001} 0" rpy="${pi/2} ${pi/2} 0" />
-    <axis xyz="1 0 0" />
-  </joint>
-
   <joint name="left_wheel_marker_fixed" type="fixed">
     <parent link="left_wheel" />
     <child link="left_wheel_marker" />
     <origin xyz="0 0 ${-wheel_w / 2}" rpy="${pi/2} 0 ${pi/2}" />
   </joint>
 
+  <joint name="base_to_left_wheel" type="continuous">
+    <parent link="base_link" />
+    <child link="left_wheel" />
+    <origin xyz="${-wheel_w/2} ${base_radius + 0.001} 0" rpy="${pi/2} ${pi/2} 0" />
+    <axis xyz="0 0 1" />
+  </joint>
+
   <joint name="base_to_right_wheel" type="continuous">
     <parent link="base_link" />
     <child link="right_wheel" />
     <origin xyz="${-wheel_w/2} ${-base_radius} 0" rpy="${pi/2} ${pi/2} 0" />
-    <axis xyz="1 0 0" />
+    <axis xyz="0 0 1" />
   </joint>
 
   <joint name="right_wheel_marker_fixed" type="fixed">
