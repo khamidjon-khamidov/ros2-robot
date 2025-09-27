@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 import os
 from glob import glob
 
-package_name = "IAS0220_246075IVSM"
+package_name = "IAS0220_246075"
 
 setup(
     name=package_name,
@@ -25,8 +25,8 @@ setup(
     tests_require=["pytest"],
     entry_points={
         "console_scripts": [
-             "walker = IAS0220_246075IVSM.random_walker:main",
-             "position_calculator = IAS0220_246075IVSM.odometer:main",
+             "walker = IAS0220_246075.random_walker:main",
+             "position_calculator = IAS0220_246075.odometer:main",
             ],
     },
 )

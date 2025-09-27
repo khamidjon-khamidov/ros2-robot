@@ -5,7 +5,7 @@ from std_msgs.msg import String
 import random
 import time
 
-STUDENT_ID = "246075IVSM"
+STUDENT_ID = "246075"
 
 
 class RandomWalker(Node):

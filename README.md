@@ -3,7 +3,7 @@ cd ~/ros2_ws
 colcon build
 source install/setup.bash
 
-ros2 launch IAS0220_246075IVSM task2.launch.py
+ros2 launch IAS0220_246075 task2.launch.py
 
 # Node list
 ros2 node list
@@ -30,6 +30,6 @@ entry_points={
 ros2 run package_name entry_point_name
 ```
 
-cd ~/ros2_ws && colcon build && ros2 run IAS0220_246075IVSM walker
+cd ~/ros2_ws && colcon build && ros2 run IAS0220_246075 walker
 
-cd ~/ros2_ws && colcon build && ros2 run IAS0220_246075IVSM position_calculator
+cd ~/ros2_ws && colcon build && ros2 run IAS0220_246075 position_calculator
