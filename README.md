@@ -3,6 +3,10 @@ cd ~/ros2_ws
 colcon build
 source install/setup.bash
 
+ros2 launch IAS0220_246075 differential_robot_task3_part2.launch.py
+
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+
 ros2 launch IAS0220_246075 task2.launch.py
 
 # Node list
@@ -33,3 +37,11 @@ ros2 run package_name entry_point_name
 cd ~/ros2_ws && colcon build && ros2 run IAS0220_246075 walker
 
 cd ~/ros2_ws && colcon build && ros2 run IAS0220_246075 position_calculator
+
+
+# TURTLESIM
+ros2 run turtlesim turtlesim_node
+
+ros2 run turtlesim turtle_teleop_key
+
+ros2 run turtlesim turtle_teleop_key --ros-args --remap turtle1/cmd_vel:=turtle2/cmd_vel

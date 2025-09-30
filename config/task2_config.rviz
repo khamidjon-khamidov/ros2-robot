@@ -136,6 +136,8 @@ Visualization Manager:
           Value: true
         left_wheel_marker:
           Value: true
+        map:
+          Value: true
         passive_wheel:
           Value: true
         passive_wheel_holder:
@@ -150,19 +152,20 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        base_footprint:
-          base_link:
-            head_link:
-              {}
-            left_wheel:
-              left_wheel_marker:
+        map:
+          base_footprint:
+            base_link:
+              head_link:
                 {}
-            passive_wheel_holder:
-              passive_wheel:
-                {}
-            right_wheel:
-              right_wheel_marker:
-                {}
+              left_wheel:
+                left_wheel_marker:
+                  {}
+              passive_wheel_holder:
+                passive_wheel:
+                  {}
+              right_wheel:
+                right_wheel_marker:
+                  {}
       Update Interval: 0
       Value: true
     - Class: rviz_default_plugins/Axes
@@ -175,7 +178,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: base_footprint
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -218,7 +221,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 0.9632861614227295
+      Distance: 0.5095231533050537
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -233,10 +236,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.06540054082870483
-      Target Frame: <Fixed Frame>
+      Pitch: 0.6754003167152405
+      Target Frame: map
       Value: Orbit (rviz)
-      Yaw: 1.7590162754058838
+      Yaw: 0.7758451700210571
     Saved: ~
 Window Geometry:
   Displays:
