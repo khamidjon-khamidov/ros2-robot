@@ -17,7 +17,7 @@ def generate_launch_description():
     gazebo_pkg_name = 'setup_gazebo_ias0220'
     
     path_to_xacro = os.path.join(
-        get_package_share_directory(package_name), "urdf", "differential_robot.xacro"
+        get_package_share_directory(package_name), "urdf", "differential_robot_simu_task4_part1.xacro"
     )
     
     gazebo_launch = IncludeLaunchDescription(
@@ -57,16 +57,16 @@ def generate_launch_description():
         name='teleop_twist_keyboard',
         output='screen',
         prefix='xterm -e',
-        # remappings=[
-            # ('/cmd_vel', '/cmd_vel')
-        # ]
+        remappings=[
+            ('/cmd_vel', '/cmd_vel')
+        ]
     )
 
-    move_node = Node(
-        package='transform_frame',
-        executable='move',
-        name='move'
-    )
+    # move_node = Node(
+    #     package='transform_frame',
+    #     executable='move',
+    #     name='move'
+    # )
 
     rviz_node = Node(
         package="rviz2",

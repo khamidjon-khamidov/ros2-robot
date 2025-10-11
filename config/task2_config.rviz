@@ -137,8 +137,6 @@ Visualization Manager:
           Value: true
         left_wheel_marker:
           Value: true
-        map:
-          Value: true
         passive_wheel:
           Value: true
         passive_wheel_holder:
@@ -153,20 +151,7 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        map:
-          base_footprint:
-            base_link:
-              head_link:
-                {}
-              left_wheel:
-                left_wheel_marker:
-                  {}
-              passive_wheel_holder:
-                passive_wheel:
-                  {}
-              right_wheel:
-                right_wheel_marker:
-                  {}
+        {}
       Update Interval: 0
       Value: true
     - Class: rviz_default_plugins/Axes
@@ -179,7 +164,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: map
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:

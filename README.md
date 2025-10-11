@@ -1,11 +1,18 @@
 # Launch package
 
 cd ~/ros2_ws
-colcon build
+colcon build --symlink-install
 source /opt/ros/humble/setup.bash
 source install/setup.bash
 
 ros2 launch ias0220_246075 differential_robot_task4_part1.launch.py
+
+pkill -f gzserver
+pkill -f gzclient
+ps aux | grep gz
+
+sudo kill -9 28053
+
 
 # Node list
 ros2 node list

@@ -220,7 +220,7 @@
     <origin xyz="0 0 ${-wheel_w / 2}" rpy="${pi/2} 0 ${pi/2}" />
   </joint>
 
-  <joint name="base_to_left_wheel" type="continuous">
+  <!-- <joint name="base_to_left_wheel" type="continuous">
     <parent link="base_link" />
     <child link="left_wheel" />
     <origin xyz="${-wheel_w/2} ${base_radius + 0.001} 0" rpy="${pi/2} ${pi/2} 0" />
@@ -232,7 +232,24 @@
     <child link="right_wheel" />
     <origin xyz="${-wheel_w/2} ${-base_radius} 0" rpy="${pi/2} ${pi/2} 0" />
     <axis xyz="0 0 1" />
+  </joint> -->
+
+  <joint name="base_to_left_wheel" type="revolute">
+    <parent link="base_link" />
+    <child link="left_wheel" />
+    <origin xyz="${-wheel_w/2} ${base_radius + 0.001} 0" rpy="${pi/2} ${pi/2} 0" />
+    <axis xyz="0 0 1" />
+    <limit lower="-1000" upper="1000" effort="5" velocity="10" />
   </joint>
+
+  <joint name="base_to_right_wheel" type="revolute">
+    <parent link="base_link" />
+    <child link="right_wheel" />
+    <origin xyz="${-wheel_w/2} ${-base_radius} 0" rpy="${pi/2} ${pi/2} 0" />
+    <axis xyz="0 0 1" />
+    <limit lower="-1000" upper="1000" effort="5" velocity="10" />
+  </joint>
+
 
   <joint name="right_wheel_marker_fixed" type="fixed">
     <parent link="right_wheel" />
@@ -253,22 +270,26 @@
     <axis xyz="0 0 1" />
   </joint>
 
+
   <gazebo>
     <plugin name="diff_drive" filename="libgazebo_ros_diff_drive.so">
-      <updateRate>50</updateRate>
-      <leftJoint>left_wheel</leftJoint>
-      <rightJoint>right_wheel</rightJoint>
-      <wheelSeparation>0.35</wheelSeparation>
-      <wheelRadius>0.036</wheelRadius>
-      <commandTopic>/cmd_vel</commandTopic>
-      <odometryTopic>/odom</odometryTopic>
-      <odometrySource>0</odometrySource>
+      <ros>
+        <!-- <remapping>odom:=diff_cont/odom</remapping> -->
+      </ros>
+
+      <update_rate>50</update_rate>
+      <left_joint>base_to_left_wheel</left_joint>
+      <right_joint>base_to_right_wheel</right_joint>
+      <wheel_separation>0.35</wheel_separation>
+      <wheel_radius>0.036</wheel_radius>
+      <wheel_diameter>0.072</wheel_diameter>
+      <command_topic>cmd_vel</command_topic>
+      <odometry_topic>odom</odometry_topic>
+      <odometry_frame>odom</odometry_frame>
+      <publish_odom>true</publish_odom>
+      <publish_tf>true</publish_tf>
+      <robot_base_frame>base_link</robot_base_frame>
     </plugin>
   </gazebo>
-
-  <ros>
-    <remapping>odom:=diff_cont/odom</remapping>
-  </ros>
-
 
 </robot>
