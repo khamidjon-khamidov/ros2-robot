@@ -14,19 +14,24 @@ from launch.actions import DeclareLaunchArgument
 
 def generate_launch_description():
     package_name = "ias0220_246075"
-    gazebo_pkg_name = 'setup_gazebo_ias0220'
-    
+    gazebo_pkg_name = "setup_gazebo_ias0220"
+
     path_to_xacro = os.path.join(
-        get_package_share_directory(package_name), "urdf", "differential_robot_simu_task4_part1.xacro"
-    )
-    
-    gazebo_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory(gazebo_pkg_name), 'launch', 'gazebo.launch.py')
-        ),
-        launch_arguments={'xacro_file': path_to_xacro}.items()
+        get_package_share_directory(package_name),
+        "urdf",
+        "differential_robot_simu_task4_part1.xacro",
     )
 
+    gazebo_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                get_package_share_directory(gazebo_pkg_name),
+                "launch",
+                "gazebo.launch.py",
+            )
+        ),
+        launch_arguments={"xacro_file": path_to_xacro}.items(),
+    )
 
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
@@ -41,10 +46,11 @@ def generate_launch_description():
         ],
     )
 
-    joint_state_publisher_gui_node = Node(
-        package="joint_state_publisher_gui",
-        executable="joint_state_publisher_gui",
-        name="joint_state_publisher_gui",
+    joint_state_publisher_node = Node(
+        package="joint_state_publisher",
+        executable="joint_state_publisher",
+        name="joint_state_publisher",
+        parameters=[{"use_sim_time": True}],
     )
 
     rviz_config_file = os.path.join(
@@ -52,21 +58,13 @@ def generate_launch_description():
     )
 
     teleop_node = Node(
-        package='teleop_twist_keyboard',
-        executable='teleop_twist_keyboard',
-        name='teleop_twist_keyboard',
-        output='screen',
-        prefix='xterm -e',
-        remappings=[
-            ('/cmd_vel', '/cmd_vel')
-        ]
+        package="teleop_twist_keyboard",
+        executable="teleop_twist_keyboard",
+        name="teleop_twist_keyboard",
+        output="screen",
+        prefix="xterm -e",
+        remappings=[("/cmd_vel", "/cmd_vel")],
     )
-
-    # move_node = Node(
-    #     package='transform_frame',
-    #     executable='move',
-    #     name='move'
-    # )
 
     rviz_node = Node(
         package="rviz2",
@@ -75,13 +73,20 @@ def generate_launch_description():
         arguments=["--display-config", rviz_config_file],
     )
 
+    rqt_graph_node = Node(
+        package="rqt_graph",
+        executable="rqt_graph",
+        name="rqt_graph",
+        output="screen",
+    )
+
     return LaunchDescription(
         [
             gazebo_launch,
             robot_state_publisher_node,
-            joint_state_publisher_gui_node,
             rviz_node,
             teleop_node,
-            # move_node,
+            joint_state_publisher_node,
+            rqt_graph_node
         ]
     )

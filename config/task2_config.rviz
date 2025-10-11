@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /RobotModel1
         - /TF1
+        - /TF1/Status1
         - /TF1/Frames1
         - /Axes1
       Splitter Ratio: 0.5
@@ -137,7 +138,7 @@ Visualization Manager:
           Value: true
         left_wheel_marker:
           Value: true
-        passive_wheel:
+        odom:
           Value: true
         passive_wheel_holder:
           Value: true
@@ -151,7 +152,14 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        {}
+        base_footprint:
+          base_link:
+            head_link:
+              {}
+            passive_wheel_holder:
+              {}
+        odom:
+          {}
       Update Interval: 0
       Value: true
     - Class: rviz_default_plugins/Axes
@@ -207,7 +215,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 1.9214673042297363
+      Distance: 2.3930788040161133
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -222,10 +230,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.3204003870487213
+      Pitch: 0.4897976517677307
       Target Frame: base_link
       Value: Orbit (rviz)
-      Yaw: 0.5408453941345215
+      Yaw: 3.0176761150360107
     Saved: ~
 Window Geometry:
   Displays:
