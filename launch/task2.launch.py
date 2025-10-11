@@ -7,7 +7,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
-    package_name = "IAS0220_246075"
+    package_name = "ias0220_246075"
 
     # Path to your xacro file
     path_to_xacro = os.path.join(

@@ -1,13 +1,11 @@
 # Launch package
+
 cd ~/ros2_ws
 colcon build
+source /opt/ros/humble/setup.bash
 source install/setup.bash
 
-ros2 launch IAS0220_246075 differential_robot_task3_part2.launch.py
-
-ros2 run teleop_twist_keyboard teleop_twist_keyboard
-
-ros2 launch IAS0220_246075 task2.launch.py
+ros2 launch ias0220_246075 differential_robot_task4_part1.launch.py
 
 # Node list
 ros2 node list
@@ -34,9 +32,9 @@ entry_points={
 ros2 run package_name entry_point_name
 ```
 
-cd ~/ros2_ws && colcon build && ros2 run IAS0220_246075 walker
+cd ~/ros2_ws && colcon build && ros2 run ias0220_246075 walker
 
-cd ~/ros2_ws && colcon build && ros2 run IAS0220_246075 position_calculator
+cd ~/ros2_ws && colcon build && ros2 run ias0220_246075 position_calculator
 
 
 # TURTLESIM

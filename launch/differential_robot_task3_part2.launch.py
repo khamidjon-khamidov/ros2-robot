@@ -6,7 +6,7 @@ from launch_ros.parameter_descriptions import ParameterValue
 from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
-    package_name = "IAS0220_246075"
+    package_name = "ias0220_246075"
 
     # Path to your xacro file
     path_to_xacro = os.path.join(
@@ -70,7 +70,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         robot_state_publisher_node,
-        joint_state_publisher_gui_node,  # <-- crucial for visualization
+        joint_state_publisher_gui_node,
         move_node,
         teleop_node,
         rviz_node,
