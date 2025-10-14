@@ -86,7 +86,7 @@ def generate_launch_description():
             robot_state_publisher_node,
             rviz_node,
             teleop_node,
-            joint_state_publisher_node,
+            # joint_state_publisher_node,
             rqt_graph_node
         ]
     )
