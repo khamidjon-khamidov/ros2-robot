@@ -2,10 +2,19 @@
 
 cd ~/ros2_ws
 colcon build --symlink-install
+source install/setup.bash
+
 source /opt/ros/humble/setup.bash
 source install/setup.bash
 
-ros2 launch ias0220_246075 differential_robot_task4_part1.launch.py
+ros2 launch ias0220_246075 differential_robot_task4_part2.launch.py
+
+ros2 run ias0220_246075 position_calculator
+
+ros2 topic echo /encoders_ticks
+
+ros2 node listst
+
 
 pkill -f gzserver
 pkill -f gzclient
@@ -50,3 +59,40 @@ ros2 run turtlesim turtlesim_node
 ros2 run turtlesim turtle_teleop_key
 
 ros2 run turtlesim turtle_teleop_key --ros-args --remap turtle1/cmd_vel:=turtle2/cmd_vel
+
+# Odometry message
+Odometry message consists of four main components:
+
+1. std_msgs/msg/Header header
+   - Contains metadata about the message, including:
+     • timestamp (stamp): time when the data was recorded
+     • coordinate frame (frame_id): the frame in which the pose is given
+
+2. string child_frame_id
+   - Identifies the moving frame, usually the base of the robot
+
+3. geometry_msgs/msg/PoseWithCovariance pose
+   - Describes the robot’s position and orientation in the frame_id coordinate frame.
+
+   • Position (geometry_msgs/Point position)
+       (x, y, z): Robot’s 3D position
+         - For a ground robot, z = 0 as we assume uniform ground.
+
+   • Orientation (geometry_msgs/Quaternion orientation)
+       - Orientation is given in quaternions.
+       - You need to convert your angles into quaternions for this message.
+
+4. geometry_msgs/msg/TwistWithCovariance twist
+   - Describes the robot’s velocity in the child_frame_id coordinate frame.
+
+   • Linear Velocity (geometry_msgs/Vector3 linear)
+       (x, y, z): Robot’s speed along each axis
+         - For differential drive, y ≈ 0 and z = 0 (you can set both to 0).
+
+   • Angular Velocity (geometry_msgs/Vector3 angular)
+       (x, y, z): Rotation rate in rad/s
+         - For differential drive, only z is relevant (set x = 0, y = 0).
+
+   • Covariance (float64[36] covariance)
+       - A 6x6 matrix representing velocity uncertainty.
+       - You do not have to worry about this for now.

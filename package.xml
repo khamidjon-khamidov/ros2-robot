@@ -14,7 +14,9 @@
   <depend>rclcpp</depend>
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
-
+  <depend>encoders_pkg</depend>
+  <depend>encoders_interfaces</depend>
+  
   <exec_depend>xacro</exec_depend>
   <exec_depend>gazebo_ros</exec_depend>
 
