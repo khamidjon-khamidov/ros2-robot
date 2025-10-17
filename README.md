@@ -15,6 +15,17 @@ ros2 topic echo /encoders_ticks
 
 ros2 node listst
 
+# Record messages from topics. -a flag is to record all topics
+ros2 bag record -a
+
+# Record specific topic
+ros2 bag record /topic1 /topic2
+
+# Replay recorded bag file
+ros2 bag play <bag_file>
+
+# What is in bag
+ros2 bag info <bag_file>
 
 pkill -f gzserver
 pkill -f gzclient

@@ -246,7 +246,7 @@
     <origin xyz="${base_radius - 0.02} 0 ${-base_thickness/2.0}" rpy="0 0 0" />
   </joint>
 
-  <joint name="holder_to_passive_wheel" type="continuous">
+  <joint name="holder_to_passive_wheel" type="fixed">
     <parent link="passive_wheel_holder" />
     <child link="passive_wheel" />
     <origin xyz="0 0 ${-passive_wheel_r}" rpy="0 0 0" />
