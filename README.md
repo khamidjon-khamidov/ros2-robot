@@ -27,6 +27,9 @@ ros2 bag play <bag_file>
 # What is in bag
 ros2 bag info <bag_file>
 
+# Run plotjuggler
+ros2 run plotjuggler plotjuggler
+
 pkill -f gzserver
 pkill -f gzclient
 ps aux | grep gz
