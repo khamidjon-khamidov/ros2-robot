@@ -7,7 +7,11 @@ source install/setup.bash
 source /opt/ros/humble/setup.bash
 source install/setup.bash
 
-ros2 launch ias0220_246075 bagfile_play_RViz_task6_part1.launch.py
+ros2 launch ias0220_246075 bagfile_record_task6_part1.launch.py
+
+bagfile_play_RViz_task6_part1.launch.py 
+
+bagfile_record_task6_part1.launch.py
 
 ros2 run ias0220_246075 position_calculator
 
