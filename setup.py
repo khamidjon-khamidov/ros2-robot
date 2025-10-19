@@ -27,6 +27,7 @@ setup(
         "console_scripts": [
             #  "walker = ias0220_246075.random_walker:main",
              "position_calculator = ias0220_246075.odometer:main",
+             "steering_node = ias0220_246075.steering_node:main",
             ],
     },
 )
