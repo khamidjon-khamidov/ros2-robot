@@ -10,20 +10,16 @@ class SteeringNode(Node):
     def __init__(self):
         super().__init__('steering_node')
 
-        # Subscriptions
         self.sub_imu = self.create_subscription(Imu, '/imu', self.imu_callback, 10)
         self.sub_distance = self.create_subscription(Range, '/distance', self.distance_callback, 10)
 
-        # Publisher
         self.cmd_pub = self.create_publisher(Twist, 'diff_cont/cmd_vel_unstamped', 10)
         
-        # Variables
         self.current_roll = 0.0
         self.current_pitch = 0.0
         self.distance = 0.0
-        self.distance_threshold = 0.5  # meters (adjust based on setup)
+        self.distance_threshold = 0.5
 
-        # Timer (publishing frequency, e.g., 10 Hz)
         self.timer = self.create_timer(0.1, self.publish_cmd)
 
         self.get_logger().info("Steering node started. Controlling robot via IMU + Distance sensor.")
@@ -34,7 +30,6 @@ class SteeringNode(Node):
         qz = msg.orientation.z
         qw = msg.orientation.w
 
-        # Convert quaternion → roll, pitch, yaw
         roll, pitch, yaw = quat2euler([qw, qx, qy, qz])
         self.current_roll = roll
         self.current_pitch = pitch
@@ -45,16 +40,13 @@ class SteeringNode(Node):
     def publish_cmd(self):
         twist = Twist()
         
-        # If object detected (distance < threshold), move
         if self.distance < self.distance_threshold:
-            # Scale pitch/roll to reasonable velocity limits
-            linear_speed = max(min(self.current_pitch * 0.5, 0.5), -0.5)   # m/s
-            angular_speed = max(min(self.current_roll * 1.0, 1.0), -1.0)   # rad/s
+            linear_speed = max(min(self.current_pitch * 0.5, 0.5), -0.5)
+            angular_speed = max(min(self.current_roll * 1.0, 1.0), -1.0)
 
             twist.linear.x = linear_speed
             twist.angular.z = angular_speed
         else:
-            # No object in front — stop
             twist.linear.x = 0.0
             twist.angular.z = 0.0
 
