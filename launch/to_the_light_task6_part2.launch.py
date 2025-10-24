@@ -12,8 +12,7 @@ def generate_launch_description():
     sensors_package = "ias0220_sensors"
     gazebo_pkg_name = "setup_gazebo_ias0220"
 
-    # Declare which bag to play
-    bag = "bag2"
+    bag = "rosbag_to_light.bag"
 
     path_to_xacro = os.path.join(
         get_package_share_directory(package_name),
@@ -65,8 +64,6 @@ def generate_launch_description():
         arguments=["0", "0", "0", "0", "0", "0", "map", "odom"],
     )
 
-
-
     # Steering node
     steering_node = Node(
         package=package_name,
@@ -79,9 +76,9 @@ def generate_launch_description():
         [
             gazebo_launch,
             include_rosbag_play,
-            my_odom_node,
-            encoders_node,
-            static_tf_node,
+            # my_odom_node,
+            # encoders_node,
+            # static_tf_node,
             steering_node,
         ]
     )

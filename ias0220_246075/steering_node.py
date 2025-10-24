@@ -18,7 +18,8 @@ class SteeringNode(Node):
         self.current_roll = 0.0
         self.current_pitch = 0.0
         self.distance = 0.0
-        self.distance_threshold = 0.5
+        self.distance_threshold_max = 0.05
+        self.distance_threshold_min = 0.001
 
         self.timer = self.create_timer(0.1, self.publish_cmd)
 
@@ -36,11 +37,12 @@ class SteeringNode(Node):
 
     def distance_callback(self, msg: Range):
         self.distance = msg.range
+        self.get_logger().info(f"New Distance: ${self.distance}")
 
     def publish_cmd(self):
         twist = Twist()
         
-        if self.distance < self.distance_threshold:
+        if self.distance < self.distance_threshold_max and self.distance > self.distance_threshold_min:
             linear_speed = max(min(self.current_pitch * 0.5, 0.5), -0.5)
             angular_speed = max(min(self.current_roll * 1.0, 1.0), -1.0)
 

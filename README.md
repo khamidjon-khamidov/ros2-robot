@@ -7,7 +7,7 @@ source install/setup.bash
 source /opt/ros/humble/setup.bash
 source install/setup.bash
 
-ros2 launch ias0220_246075 bagfile_play_RViz_task6_part1.launch.py
+ros2 launch ias0220_246075 to_the_light_task6_part2.launch.py
 
 ros2 launch ias0220_246075 differential_robot_rosbag_steering_task6_part2_offline_data.launch.py
 
