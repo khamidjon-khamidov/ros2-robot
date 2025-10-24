@@ -15,6 +15,14 @@ def generate_launch_description():
         default_value='bag1',
         description='Bag file to play'
     )
+    
+    static_tf = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        name="static_tf_pub",
+        arguments=["--frame-id", "map", "--child-frame-id", "imu_link"],
+        output="screen"
+    )
 
     ias_launch_file = os.path.join(
         get_package_share_directory(ias_package_name),
@@ -43,6 +51,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         declare_bag_arg,
+        static_tf,
         include_ias_launch,
         rviz_node,
     ])
