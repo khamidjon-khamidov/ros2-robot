@@ -41,30 +41,6 @@ def generate_launch_description():
         launch_arguments={"xacro_file": path_to_xacro}.items(),
     )
 
-    my_odom_node = Node(
-        package="ias0220_246075",
-        executable="position_calculator",
-        name="my_odom",
-        output="screen",
-        parameters=[{"use_sim_time": True}],
-    )
-    
-    encoders_node = Node(
-        package="encoders_pkg",
-        executable="encoders_node",
-        name="encoders_node",
-        output="screen",
-        parameters=[{"use_sim_time": True}],
-    )
-    
-    static_tf_node = Node(
-        package="tf2_ros",
-        executable="static_transform_publisher",
-        name="map_to_odom_tf",
-        arguments=["0", "0", "0", "0", "0", "0", "map", "odom"],
-    )
-
-    # Steering node
     steering_node = Node(
         package=package_name,
         executable="steering_node",
@@ -76,9 +52,6 @@ def generate_launch_description():
         [
             gazebo_launch,
             include_rosbag_play,
-            # my_odom_node,
-            # encoders_node,
-            # static_tf_node,
             steering_node,
         ]
     )
