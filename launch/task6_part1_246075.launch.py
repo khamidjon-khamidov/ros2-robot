@@ -32,9 +32,8 @@ def generate_launch_description():
         executable="image_proc",
         name="image_proc",
         remappings=[
-            ("image_raw", "/image_raw"),
+            ("image", "/image_raw"),
             ("camera_info", "/camera_info"),
-            ("image", "/image_rect")
         ],
         output="screen"
     )

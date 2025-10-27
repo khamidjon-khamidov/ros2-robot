@@ -101,7 +101,7 @@ class CameraCalibration(Node):
             cam_info.p = P.flatten().tolist()
 
             self.pub_camera_info.publish(cam_info)
-            self.get_logger().warn_once("Publishing /camera_info ...")
+            self.get_logger().warn("Publishing /camera_info ...")
 
         processed_msg = self.bridge.cv2_to_imgmsg(frame, encoding='bgr8')
         processed_msg.header = msg.header
