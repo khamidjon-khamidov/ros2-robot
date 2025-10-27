@@ -7,7 +7,7 @@ source install/setup.bash
 source /opt/ros/humble/setup.bash
 source install/setup.bash
 
-ros2 launch ias0220_246075 to_the_light_task6_part2.launch.py
+ros2 launch ias0220_246075 task6_part1_246075.launch.py
 
 ros2 launch ias0220_246075 differential_robot_rosbag_steering_task6_part2_offline_data.launch.py
 
@@ -116,3 +116,5 @@ Odometry message consists of four main components:
    • Covariance (float64[36] covariance)
        - A 6x6 matrix representing velocity uncertainty.
        - You do not have to worry about this for now.
+
+pip install opencv-python==4.5.4.60

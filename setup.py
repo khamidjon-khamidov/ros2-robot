@@ -4,6 +4,7 @@ from glob import glob
 
 package_name = "ias0220_246075"
 
+
 setup(
     name=package_name,
     version="0.0.0",
@@ -12,7 +13,6 @@ setup(
         ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
         ("share/" + package_name, ["package.xml"]),
         (os.path.join("share", package_name, "launch"), glob("launch/*.launch.py")),
-        # Include both .urdf and .xacro files in urdf folder
         (os.path.join("share", package_name, "urdf"), glob("urdf/*.urdf") + glob("urdf/*.xacro")),
         (os.path.join("share", package_name, "config"), glob("config/*.rviz")),
     ],
@@ -28,6 +28,8 @@ setup(
             #  "walker = ias0220_246075.random_walker:main",
              "position_calculator = ias0220_246075.odometer:main",
              "steering_node = ias0220_246075.steering_node:main",
+             "camera_calibration = ias0220_246075.camera_calibration:main",
+             "image_publisher = ias0220_246075.image_publisher:main",
             ],
     },
 )
