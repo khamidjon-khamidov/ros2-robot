@@ -20,7 +20,7 @@ class CameraCalibration(Node):
         self.state = 'collecting'
         self.image_count = 0
 
-        self.pattern_size = (9, 6)  # columns x rows
+        self.pattern_size = (7, 6)  # columns x rows
         self.criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
         self.objp = np.zeros((np.prod(self.pattern_size), 3), np.float32)
@@ -39,13 +39,18 @@ class CameraCalibration(Node):
             ret, corners = cv2.findChessboardCorners(gray, self.pattern_size, None)
 
             if ret:
+                self.get_logger().warn(f"Corners detected in this image (image {self.image_count + 1})")
+            else:
+                self.get_logger().warn(f"Corners NOT detected in this frame (image {self.image_count + 1})")
+
+            if ret:
                 corners2 = cv2.cornerSubPix(gray, corners, (11, 11), (-1, -1), self.criteria)
                 self.objpoints.append(self.objp)
                 self.imgpoints.append(corners2)
                 self.image_count += 1
 
                 cv2.drawChessboardCorners(frame, self.pattern_size, corners2, ret)
-                self.get_logger().info(f"Collected {self.image_count}/37 calibration images")
+                self.get_logger().warn(f"Collected {self.image_count}/37 calibration images")
 
                 processed_msg = self.bridge.cv2_to_imgmsg(frame, encoding='bgr8')
                 processed_msg.header = msg.header
@@ -53,7 +58,7 @@ class CameraCalibration(Node):
 
             if self.image_count >= 37:
                 self.state = 'calibrating'
-                self.get_logger().info("Enough images collected. Starting calibration...")
+                self.get_logger().warn("Enough images collected. Starting calibration...")
 
         elif self.state == 'calibrating':
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -71,7 +76,7 @@ class CameraCalibration(Node):
                 mean_error += error
 
             mean_error /= len(self.objpoints)
-            self.get_logger().info(f"✅ Calibration complete. Mean error: {mean_error:.6f}")
+            self.get_logger().warn(f"✅ Calibration complete. Mean error: {mean_error:.6f}")
 
             self.state = 'publishing'
 
@@ -96,7 +101,7 @@ class CameraCalibration(Node):
             cam_info.p = P.flatten().tolist()
 
             self.pub_camera_info.publish(cam_info)
-            self.get_logger().info_once("Publishing /camera_info ...")
+            self.get_logger().warn_once("Publishing /camera_info ...")
 
         processed_msg = self.bridge.cv2_to_imgmsg(frame, encoding='bgr8')
         processed_msg.header = msg.header

@@ -56,7 +56,7 @@ class ImagePublisher(Node):
         msg.header.frame_id = "camera"
         msg.header.stamp = self.get_clock().now().to_msg()
         self.publisher_.publish(msg)
-        self.get_logger().info(f"Published: {os.path.basename(img_path)}")
+        # self.get_logger().info(f"Published: {os.path.basename(img_path)}")
 
         self.index = (self.index + 1) % len(self.image_files)
 
