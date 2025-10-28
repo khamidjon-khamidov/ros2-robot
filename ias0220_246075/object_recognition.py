@@ -22,6 +22,8 @@ class ObjectRecognitionNode(Node):
         self.lower_red2 = np.array([160, 150, 100])
         self.upper_red2 = np.array([180, 255, 255])
 
+        self.path_points = []
+
     def image_callback(self, msg):
         try:
             cv_image = self.bridge.imgmsg_to_cv2(msg, "bgr8")
@@ -44,13 +46,20 @@ class ObjectRecognitionNode(Node):
                 c = max(large_contours, key=cv2.contourArea)
                 ((x, y), radius) = cv2.minEnclosingCircle(c)
 
-                cv2.circle(cv_image, (int(x), int(y)), int(radius), (0, 255, 0), 3)
-                self.get_logger().info(f"Detected robot at x={x:.1f}, y={y:.1f}, r={radius:.1f}")
+                if radius > 5:
+                    cv2.circle(cv_image, (int(x), int(y)), int(radius), (0, 255, 0), 3)
+                    self.path_points.append((int(x), int(y)))
+                    for i in range(1, len(self.path_points)):
+                        cv2.line(cv_image, self.path_points[i-1], self.path_points[i], (255, 0, 0), 2)
+                    if len(self.path_points) > 500:
+                        self.path_points.pop(0)
+                    self.get_logger().info(f"Detected robot at x={x:.1f}, y={y:.1f}, r={radius:.1f}")
+                else:
+                    self.get_logger().info("Largest contour too small, ignoring")
             else:
                 self.get_logger().info("No large contours detected")
         else:
             self.get_logger().info("No contours detected")
-
 
         out_msg = self.bridge.cv2_to_imgmsg(cv_image, "bgr8")
         self.pub.publish(out_msg)
