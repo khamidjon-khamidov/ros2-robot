@@ -30,6 +30,7 @@ setup(
              "steering_node = ias0220_246075.steering_node:main",
              "camera_calibration = ias0220_246075.camera_calibration:main",
              "image_publisher = ias0220_246075.image_publisher:main",
+             "object_recognition = ias0220_246075.object_recognition:main",
             ],
     },
 )

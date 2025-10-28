@@ -34,7 +34,9 @@ def generate_launch_description():
         parameters=[params],
     )
 
-    rviz_config_file = os.path.join(get_package_share_directory(package_name), "config", "task6_config_part2.rviz")
+    rviz_config_file = os.path.join(
+        get_package_share_directory(package_name), "config", "task6_config_part2.rviz"
+    )
 
     teleop_node = Node(
         package="teleop_twist_keyboard",
@@ -104,6 +106,14 @@ def generate_launch_description():
         output="screen",
     )
 
+    object_recognition_node = Node(
+        package="ias0220_246075",
+        executable="object_recognition",
+        name="object_recognition",
+        output="screen",
+        parameters=[{"use_sim_time": True}],
+    )
+
     return LaunchDescription(
         [
             robot_state_publisher_node,
@@ -114,5 +124,6 @@ def generate_launch_description():
             teleop_node,
             gazebo_playground,
             spawn_robot,
+            object_recognition_node,
         ]
     )
