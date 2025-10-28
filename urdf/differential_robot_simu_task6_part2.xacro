@@ -1,0 +1,301 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="my_robot">
+
+  <!-- ========================== Properties ========================== -->
+  <xacro:property name="wheel_d" value="0.072" />
+  <xacro:property name="wheel_r" value="${wheel_d/2.0}" />
+  <xacro:property name="wheel_w" value="0.008" />
+  <xacro:property name="base_radius" value="0.175" />
+  <xacro:property name="base_thickness" value="0.02" />
+  <xacro:property name="base_z_offset" value="0.05" />
+  <xacro:property name="head_x" value="0.03" />
+  <xacro:property name="head_y" value="0.02" />
+  <xacro:property name="head_z" value="0.02" />
+  <xacro:property name="passive_holder_len" value="0.06" />
+  <xacro:property name="passive_wheel_r" value="0.015" />
+  <xacro:property name="passive_wheel_w" value="0.01" />
+
+  <!-- Mass properties -->
+  <xacro:property name="mass_head" value="0.02" /> <!-- 20g -->
+  <xacro:property name="mass_base" value="0.1" />  <!-- 100g -->
+  <xacro:property name="mass_back_wheel" value="0.025" /> <!-- 25g -->
+  <xacro:property name="mass_passive_holder" value="0.015" /> <!-- 15g -->
+  <xacro:property name="mass_passive_wheel" value="0.01" /> <!-- 10g -->
+
+  <material name="wheel_black">
+    <color rgba="0.05 0.05 0.05 1.0" />
+  </material>
+
+  <!-- ========================== Links ========================== -->
+  <link name="base_footprint" />
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder radius="${base_radius}" length="${base_thickness}" />
+      </geometry>
+      <material name="base_red">
+        <color rgba="0.8 0.2 0.2 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${base_radius}" length="${base_thickness}" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${mass_base}" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+
+  <link name="head_link">
+    <visual>
+      <geometry>
+        <box size="${head_x} ${head_y} ${head_z}" />
+      </geometry>
+      <material name="head_blue">
+        <color rgba="0.15 0.4 0.9 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${head_x} ${head_y} ${head_z}" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${mass_head}" />
+      <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+
+  <!-- Back wheels -->
+  <link name="left_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="${wheel_r}" length="${wheel_w}" />
+      </geometry>
+      <material name="wheel_black" />
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${wheel_r}" length="${wheel_w}" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${mass_back_wheel}" />
+      <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+
+    <gazebo>
+      <mu1>1.0</mu1>
+      <mu2>1.0</mu2>
+      <kp>100000</kp>
+      <kd>1</kd>
+      <turningSlip>0.1</turningSlip>
+    </gazebo>
+  </link>
+
+  <link name="right_wheel">
+    <visual>
+      <geometry>
+        <cylinder radius="${wheel_r}" length="${wheel_w}" />
+      </geometry>
+      <material name="wheel_black" />
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="${wheel_r}" length="${wheel_w}" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${mass_back_wheel}" />
+      <inertia ixx="0.00001" iyy="0.00001" izz="0.00001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+
+    <gazebo>
+      <mu1>1.0</mu1>
+      <mu2>1.0</mu2>
+      <kp>100000</kp>
+      <kd>1</kd>
+      <turningSlip>0.1</turningSlip>
+    </gazebo>
+  </link>
+
+  <!-- Rotation markers -->
+  <link name="left_wheel_marker">
+    <visual>
+      <geometry>
+        <box size="${wheel_r*0.2} ${wheel_w*0.1} ${wheel_r*1.2}" />
+      </geometry>
+      <material name="marker_white">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${wheel_r*0.2} ${wheel_w*0.1} ${wheel_r*1.2}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="right_wheel_marker">
+    <visual>
+      <geometry>
+        <box size="${wheel_r*0.2} ${wheel_w*0.1} ${wheel_r*1.2}" />
+      </geometry>
+      <material name="marker_white">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${wheel_r*0.2} ${wheel_w*0.1} ${wheel_r*1.2}" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="passive_wheel_holder">
+    <visual>
+      <geometry>
+        <box size="${passive_holder_len} ${passive_wheel_w} ${passive_wheel_w}" />
+      </geometry>
+      <material name="white">
+        <color rgba="0.95 0.95 0.95 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${passive_holder_len} ${passive_wheel_w} ${passive_wheel_w}" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${mass_passive_holder}" />
+      <inertia ixx="0.000005" iyy="0.000005" izz="0.000005" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+
+  <link name="passive_wheel">
+    <visual>
+      <geometry>
+        <sphere radius="${passive_wheel_r}" />
+      </geometry>
+      <material name="wheel_black" />
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="${passive_wheel_r}" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${mass_passive_wheel}" />
+      <inertia ixx="0.000002" iyy="0.000002" izz="0.000002" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+
+    <gazebo>
+      <mu1>0.0</mu1>
+      <mu2>0.0</mu2>
+      <kp>100000</kp>
+      <kd>1</kd>
+      <turningSlip>0.0</turningSlip>
+    </gazebo>
+  </link>
+
+  <!-- ========================== Joints ========================== -->
+  <joint name="footprint_to_base" type="fixed">
+    <parent link="base_footprint" />
+    <child link="base_link" />
+    <origin xyz="0 0 ${base_z_offset}" rpy="0 0 0" />
+  </joint>
+
+  <joint name="base_to_head" type="fixed">
+    <parent link="base_link" />
+    <child link="head_link" />
+    <origin xyz="${base_radius - 0.02} 0 ${base_thickness/2.0 + head_z/2.0}" rpy="0 0 0" />
+  </joint>
+
+  <joint name="base_to_left_wheel" type="continuous">
+    <parent link="base_link" />
+    <child link="left_wheel" />
+    <origin xyz="${-wheel_w/2} ${base_radius + 0.001} 0" rpy="${-pi/2} ${pi/2} 0" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <joint name="base_to_right_wheel" type="continuous">
+    <parent link="base_link" />
+    <child link="right_wheel" />
+    <origin xyz="${-wheel_w/2} ${-base_radius} 0" rpy="${-pi/2} ${pi/2} 0" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <joint name="left_wheel_marker_fixed" type="fixed">
+    <parent link="left_wheel" />
+    <child link="left_wheel_marker" />
+    <origin xyz="0 0 ${-wheel_w / 2}" rpy="${pi/2} 0 ${pi/2}" />
+  </joint>
+
+  <joint name="right_wheel_marker_fixed" type="fixed">
+    <parent link="right_wheel" />
+    <child link="right_wheel_marker" />
+    <origin xyz="0 0 ${wheel_w / 2}" rpy="${pi/2} 0 ${pi/2}" />
+  </joint>
+
+  <joint name="base_to_passive_holder" type="fixed">
+    <parent link="base_link" />
+    <child link="passive_wheel_holder" />
+    <origin xyz="${base_radius - 0.02} 0 ${-base_thickness/2.0}" rpy="0 0 0" />
+  </joint>
+
+  <joint name="holder_to_passive_wheel" type="fixed">
+    <parent link="passive_wheel_holder" />
+    <child link="passive_wheel" />
+    <origin xyz="0 0 ${-passive_wheel_r}" rpy="0 0 0" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <gazebo>
+    <plugin name="my_robot_diff_drive" filename="libgazebo_ros_diff_drive.so">
+      <ros>
+        <namespace>/my_robot</namespace>
+        <remapping>odom:=diff_cont/odom</remapping>
+      </ros>
+
+      <update_rate>50</update_rate>
+
+      <left_joint>base_to_left_wheel</left_joint>
+      <right_joint>base_to_right_wheel</right_joint>
+
+      <wheel_separation>0.35</wheel_separation>
+      <wheel_radius>0.036</wheel_radius>
+      <wheel_diameter>0.072</wheel_diameter>
+
+      <command_topic>/my_robot/cmd_vel</command_topic>
+
+      <odometry_topic>odom</odometry_topic>
+      <odometry_frame>odom</odometry_frame>
+
+      <robot_base_frame>base_footprint</robot_base_frame>
+
+      <publish_odom>true</publish_odom>
+      <publish_odom_tf>true</publish_odom_tf>
+      <publish_joint_state>true</publish_joint_state>
+      <publish_tf>true</publish_tf>
+      <publish_wheel_tf>true</publish_wheel_tf>
+    </plugin>
+
+    <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+      <ros>
+        <remapping>odom:=ground_truth</remapping>
+      </ros>
+      <update_rate>50.0</update_rate>
+      <body_name>base_footprint</body_name>
+      <gaussian_noise>0.0</gaussian_noise>
+      <frame_name>odom</frame_name>
+      <xyz_offset>0 0 0</xyz_offset>
+      <rpy_offset>0 0 0</rpy_offset>
+    </plugin>
+
+  </gazebo>
+
+</robot>
