@@ -1,17 +1,12 @@
 import os
-from launch import LaunchDescription
-from launch.substitutions import LaunchConfiguration
-from launch_ros.actions import Node
-from launch.substitutions import Command
-from ament_index_python.packages import get_package_share_directory
-from launch_ros.parameter_descriptions import ParameterValue
-from launch.actions import SetEnvironmentVariable, IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import PathJoinSubstitution
-from launch_ros.substitutions import FindPackageShare
-from launch.actions import DeclareLaunchArgument, TimerAction
 import xacro
 
+from launch import LaunchDescription
+from launch_ros.actions import Node
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from ament_index_python.packages import get_package_share_directory
+from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
     package_name = "ias0220_246075"
@@ -22,20 +17,27 @@ def generate_launch_description():
         "urdf",
         "differential_robot_simu_task6_part2.xacro",
     )
-
     doc = xacro.parse(open(path_to_xacro))
     xacro.process_doc(doc)
     params = {"robot_description": doc.toxml(), "use_sim_time": True}
+
+    default_rviz_config = os.path.join(
+        get_package_share_directory(package_name), "config", "task6_config_part2.rviz"
+    )
+    
+    declare_rviz_arg = DeclareLaunchArgument(
+        "rviz_config",
+        default_value=default_rviz_config,
+        description="Path to RViz config file",
+    )
+    
+    rviz_config_file = LaunchConfiguration("rviz_config")
 
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
         name="robot_state_publisher",
         parameters=[params],
-    )
-
-    rviz_config_file = os.path.join(
-        get_package_share_directory(package_name), "config", "task6_config_part2.rviz"
     )
 
     teleop_node = Node(
@@ -63,7 +65,7 @@ def generate_launch_description():
     )
 
     my_odom_node = Node(
-        package="ias0220_246075",
+        package=package_name,
         executable="position_calculator",
         name="my_odom",
         output="screen",
@@ -77,6 +79,7 @@ def generate_launch_description():
         arguments=["0", "0", "0", "0", "0", "0", "map", "odom"],
     )
 
+    # Include mvt_main.launch.py with default RViz config
     gazebo_playground = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -85,6 +88,7 @@ def generate_launch_description():
                 "mvt_main.launch.py",
             )
         ),
+        launch_arguments={"rviz_config": rviz_config_file}.items(),
     )
 
     spawn_robot = Node(
@@ -107,7 +111,7 @@ def generate_launch_description():
     )
 
     object_recognition_node = Node(
-        package="ias0220_246075",
+        package=package_name,
         executable="object_recognition",
         name="object_recognition",
         output="screen",
@@ -116,6 +120,7 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
+            declare_rviz_arg,
             robot_state_publisher_node,
             encoders_node,
             my_odom_node,
