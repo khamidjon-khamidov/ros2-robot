@@ -22,19 +22,16 @@ class PDController(Node):
     def __init__(self):
         super().__init__('simple_control')
 
-        # Wait for other nodes to start (gazebo, tf, etc.)
         time.sleep(5)
 
-        # variables for error change rate calculation
         self.start_time = self.get_clock().now()
         self.last_odom_time = self.get_clock().now()
 
-        # subscriptions and publishers
         self.sub_odom = self.create_subscription(
             Odometry, '/diff_cont/odom', self.onOdom, 10)
-        # optional goal subscriber (bonus) - safe to keep but not used
-        self.sub_goal = self.create_subscription(
-            PoseStamped, '/goal_pose', self.onGoal, 10)
+        
+        # self.sub_goal = self.create_subscription(
+            # PoseStamped, '/goal_pose', self.onGoal, 10)
 
         self.vel_cmd_pub = self.create_publisher(
             Twist, '/diff_cont/cmd_vel', 10)
@@ -93,7 +90,6 @@ class PDController(Node):
         """
         Helper function that returns angle wrapped between +- Pi.
         """
-        # Normalize to [-pi, pi]
         a = float(angle)
         while a > math.pi:
             a -= 2.0 * math.pi
@@ -111,23 +107,19 @@ class PDController(Node):
             self.vel_cmd = np.array([0.0, 0.0])
             return
 
-        # Proportional terms
         linear_p = self.Kp[0] * self.error[0]
         angular_p = self.Kp[1] * self.th_diff
 
-        # Derivative terms (error change rates)
         linear_d = self.Kd[0] * self.error_change_rate[0]
         angular_d = self.Kd[1] * self.error_change_rate[1]
 
         v = linear_p + linear_d
         w = angular_p + angular_d
 
-        # If angular error is large, optionally reduce forward speed to avoid cutting corners
         angle_abs = abs(self.th_diff)
         if angle_abs > (math.pi / 6.0):  # 30 degrees
             v *= max(0.0, 1.0 - (angle_abs - math.pi/6.0))
 
-        # Saturate velocities
         v = max(-self.max_linear, min(self.max_linear, v))
         w = max(-self.max_angular, min(self.max_angular, w))
 
@@ -161,33 +153,24 @@ class PDController(Node):
         line to waypoint and robot heading. Updates self.error, self.error_change_rate, self.th_diff and self.pos_diff
         """
         if self.waypoints.size == 0:
-            # no target
             self.error = np.array([0.0, 0.0])
             self.error_change_rate = np.array([0.0, 0.0])
             self.th_diff = 0.0
             self.pos_diff = np.array([0.0, 0.0])
             return
 
-        # Current target is the first waypoint in the list
         target = self.waypoints[0]
-        # position difference vector (target - current)
         self.pos_diff = np.array([target[0] - self.pos[0], target[1] - self.pos[1]])
 
-        # distance (Euclidean)
         distance_error = float(np.linalg.norm(self.pos_diff))
 
-        # desired heading to target
         desired_heading = math.atan2(self.pos_diff[1], self.pos_diff[0])
 
-        # angular difference between desired heading and current heading
         self.th_diff = self.wrapAngle(desired_heading - self.theta)
 
-        # update errors
         self.last_error = np.copy(self.error)
         self.error = np.array([distance_error, abs(self.th_diff)])
 
-        # compute rate of change of error (derivative)
-        # dt available from onOdom callback as self.dt (guard against zero)
         dt = getattr(self, 'dt', 1e-6)
         if dt <= 0.0:
             dt = 1e-6
@@ -214,41 +197,34 @@ class PDController(Node):
 
         dt_tmp = (now_odom_time - self.last_odom_time).to_msg()
         self.dt = float(dt_tmp.sec + dt_tmp.nanosec/1e9)
-        # guard dt
         if self.dt <= 0.0:
             self.dt = 1e-6
         self.last_odom_time = now_odom_time
 
-        # Calculate error between current pose and next waypoint position
         self.calculateError()
 
-        # Check reaching waypoint or not
         if self.isWaypointReached():
             self.get_logger().info(
                 "Reached waypoint!\nFuture waypoint list: "
                 + str(self.waypoints))
-            self.calculateError()  # Update error with new target waypoint
-
-        # Calculate velocity command using PD control
+            self.calculateError()
         self.control()
 
-        # publish velocity commands
         self.vel_cmd_msg.linear.x = float(self.vel_cmd[0])
         self.vel_cmd_msg.angular.z = float(self.vel_cmd[1])
         self.vel_cmd_pub.publish(self.vel_cmd_msg)
 
-        # Publish waypoints visualization
         self.publishWaypoints()
 
-    def onGoal(self, goal_msg):
-        # Bonus: user-provided goal; simply append to waypoint list
-        try:
-            x = goal_msg.pose.position.x
-            y = goal_msg.pose.position.y
-            self.waypoints = np.vstack([self.waypoints, [x, y]])
-            self.get_logger().info(f"Added external goal: {[x,y]}")
-        except Exception:
-            pass
+    # def onGoal(self, goal_msg):
+    #     # Bonus: user-provided goal; simply append to waypoint list
+    #     try:
+    #         x = goal_msg.pose.position.x
+    #         y = goal_msg.pose.position.y
+    #         self.waypoints = np.vstack([self.waypoints, [x, y]])
+    #         self.get_logger().info(f"Added external goal: {[x,y]}")
+    #     except Exception:
+    #         pass
 
 
 def main(args=None):

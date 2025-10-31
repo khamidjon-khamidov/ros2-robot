@@ -1,4 +1,4 @@
-controller:
+simple_control:
   ros__parameters:
     waypoints_x: [2.0, 7.0, 10.0, 13.0, 17.0] # [m] DO NOT MODIFY IT 
     waypoints_y: [0.5, 3.0, 6.0, 11.0, 17.0] # [m] DO NOT MODIFY IT 

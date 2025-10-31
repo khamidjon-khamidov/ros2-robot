@@ -19,7 +19,7 @@ def generate_launch_description():
     path_to_xacro = os.path.join(
         get_package_share_directory(package_name),
         "urdf",
-        "differential_robot_simu_task4_part2.xacro",
+        "differential_robot_simu_task7.xacro",
     )
 
     gazebo_launch = IncludeLaunchDescription(
@@ -101,7 +101,7 @@ def generate_launch_description():
             encoders_node,
             my_odom_node,
             static_tf_node,
-            # gazebo_launch,
+            gazebo_launch,
             rviz_node,
             simple_control,
         ]
