@@ -1,0 +1,10 @@
+controller:
+  ros__parameters:
+    waypoints_x: [2.0, 7.0, 10.0, 13.0, 17.0] # [m] DO NOT MODIFY IT 
+    waypoints_y: [0.5, 3.0, 6.0, 11.0, 17.0] # [m] DO NOT MODIFY IT 
+    distance_margin: 0.50   # [m] DO NOT MODIFY IT 
+    Kp: [1.0, 2.5]
+    Kd: [0.2, 0.5]
+    target_angle: 0.0
+    max_linear: 1.0
+    max_angular: 2.0

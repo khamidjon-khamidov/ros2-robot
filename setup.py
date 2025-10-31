@@ -15,6 +15,7 @@ setup(
         (os.path.join("share", package_name, "launch"), glob("launch/*.launch.py")),
         (os.path.join("share", package_name, "urdf"), glob("urdf/*.urdf") + glob("urdf/*.xacro")),
         (os.path.join("share", package_name, "config"), glob("config/*.rviz")),
+        (os.path.join("share", package_name, "config"), glob("config/*.yaml")),
     ],
     install_requires=["setuptools"],
     zip_safe=True,
@@ -31,6 +32,7 @@ setup(
              "camera_calibration = ias0220_246075.camera_calibration:main",
              "image_publisher = ias0220_246075.image_publisher:main",
              "object_recognition = ias0220_246075.object_recognition:main",
+             "simple_control = ias0220_246075.simple_control:main",
             ],
     },
 )
